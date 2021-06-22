@@ -31,7 +31,7 @@
         <mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
         <mybatis-spring-boot-starter.version>2.1.1</mybatis-spring-boot-starter.version>
         <hutool-all.version>5.1.0</hutool-all.version>
-        <young.learn.content.shared.version>1.0.0-SNAPSHOT</young.learn.content.shared.version>
+        <learn.test.content.version>1.0.0-SNAPSHOT</learn.test.content.version>
     </properties>
 
     <dependencies>
@@ -124,6 +124,14 @@
             <version>1.2.46</version>
         </dependency>
         <!--工具-->
+
+        <!--业务-->
+        <dependency>
+            <groupId>com.learn</groupId>
+            <artifactId>learn-test-shared</artifactId>
+            <version>${learn.test.content.version}</version>
+        </dependency>
+        <!--业务-->
 
     </dependencies>
 

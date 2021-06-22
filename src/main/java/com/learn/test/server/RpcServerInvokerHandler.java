@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.net.Socket;
 
+import com.learn.test.rpc.RpcRequest;
+
 /**
  * @author Bai
  * @date 2021/6/9 22:11
@@ -13,13 +15,16 @@ import java.net.Socket;
 public class RpcServerInvokerHandler implements Runnable {
 
 	private Socket socket;
+	private Object service;
 
-	public RpcServerInvokerHandler (Socket socket) {
+	public RpcServerInvokerHandler (Socket socket, Object service) {
 		this.socket = socket;
+		this.service = service;
 	}
 
 	@Override
 	public void run () {
+		System.out.println("开始执行了");
 		ObjectInputStream objectInputStream = null;
 		ObjectOutputStream objectOutputStream = null;
 		try {
@@ -34,6 +39,7 @@ public class RpcServerInvokerHandler implements Runnable {
 			objectOutputStream.writeObject(result);
 			objectOutputStream.flush();
 		} catch (Exception e) {
+			e.printStackTrace();
 		} finally {
 			if (null != objectInputStream) {
 				try {
@@ -72,6 +78,6 @@ public class RpcServerInvokerHandler implements Runnable {
 		//根据方法名和入参获取对应的方法对象
 		Method method = aClass.getMethod(methodName, types);
 		//执行
-		return method.invoke(aClass.newInstance(), args);
+		return method.invoke(service, args);
 	}
 }
