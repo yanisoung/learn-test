@@ -1,8 +1,8 @@
 package com.learn.test;
 
-import com.learn.test.server.RpcProxyServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 
@@ -17,7 +17,13 @@ import org.springframework.context.annotation.PropertySource;
 public class Application {
 
 	public static void main (String[] args) {
-		SpringApplication.run(Application.class, args);
+		//1.返回了IOC容器
+		ConfigurableApplicationContext run = SpringApplication.run(Application.class, args);
+		//2.查看spring boot 帮我们配置了哪些组件
+		String[] beanDefinitionNames = run.getBeanDefinitionNames();
+		for (String beanDefinitionName : beanDefinitionNames) {
+			System.out.println(beanDefinitionName);
+		}
 		System.out.println("------------启动成功-----------");
 
 	}
