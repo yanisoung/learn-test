@@ -12,7 +12,9 @@ import org.springframework.context.annotation.PropertySource;
  */
 //开启AspectJ的Proxy设置，使得SpringBoot容器可以解析aop配置
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@SpringBootApplication(scanBasePackages = "com.learn.test")
+//springboot默认扫描Application.java同级下的路径
+@SpringBootApplication
+//@SpringBootApplication(scanBasePackages = "com.learn.test")
 @PropertySource(value = {"classpath:application.properties"})
 public class Application {
 
