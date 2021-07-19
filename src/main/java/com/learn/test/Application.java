@@ -16,7 +16,7 @@ import org.springframework.context.annotation.PropertySource;
 //springboot默认扫描Application.java同级下的路径
 @SpringBootApplication
 //@SpringBootApplication(scanBasePackages = "com.learn.test")
-@PropertySource(value = {"classpath:application.properties"})
+@PropertySource(value = {"classpath:application.properties", "application.yml"})
 public class Application {
 
 	public static void main (String[] args) {

@@ -86,6 +86,18 @@
             <artifactId>spring-boot-starter-aop</artifactId>
             <version>${spring.boot.aop.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
         <!--Spring cloud Hoxton.SR1-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -150,6 +162,19 @@
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>
+                </configuration>
+            </plugin>
+            <!--            自动注入属性-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>

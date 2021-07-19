@@ -1,0 +1,11 @@
+configdemo:
+  user:
+    name: 小红
+    age: 15
+    hobbies:
+      - 唱歌
+      - 跳舞
+    clazz: { 语文: 1,数学: 2 }
+    dog:
+      age: 2
+      name: 小黄
