@@ -16,7 +16,10 @@ import org.springframework.context.annotation.PropertySource;
 //springboot默认扫描Application.java同级下的路径
 @SpringBootApplication
 //@SpringBootApplication(scanBasePackages = "com.learn.test")
+//PropertySource主要用于将自定义的配置文件的属性与实体对象映射
 @PropertySource(value = {"classpath:application.properties", "application.yml"})
+//ImportResource用于引入.xml 类型的配置文件 在spring boot中已经被配置类替代,且要求放在配置启动类上
+//@ImportResource(locations = {"classpath:application.xml"})
 public class Application {
 
 	public static void main (String[] args) {
