@@ -5,7 +5,10 @@ configdemo:
     hobbies:
       - 唱歌
       - 跳舞
-    clazz: { 语文: 1,数学: 2 }
     dog:
       age: 2
       name: 小黄
+    clazz:
+      name: 李四
+      age: 张三
+    books: { book1: 中文,book2: 英语 }
