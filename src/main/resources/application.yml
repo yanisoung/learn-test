@@ -3,12 +3,12 @@ configdemo:
     name: 小红
     age: 15
     hobbies:
-      - 唱歌
-      - 跳舞
+      - 唱歌_${random.value}
+      - 跳舞_${random.uuid}
     dog:
       age: 2
-      name: 小黄
+      name: ${configdemo.user.name}_小黄
     clazz:
       name: 李四
-      age: 张三
-    books: { book1: 中文,book2: 英语 }
+      age: 12
+    books: { book1: 中文${configdemo.user.name},book2: 英语 }
