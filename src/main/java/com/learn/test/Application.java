@@ -1,6 +1,7 @@
 package com.learn.test;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -12,6 +13,8 @@ import org.springframework.context.annotation.PropertySource;
  */
 //开启AspectJ的Proxy设置，使得SpringBoot容器可以解析aop配置
 @EnableAspectJAutoProxy(proxyTargetClass = true)
+//自动加载配置文件
+//@EnableAutoConfiguration
 //SpringBootApplication = @SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan
 //springboot默认扫描Application.java同级下的路径
 @SpringBootApplication
