@@ -1,7 +1,5 @@
 package com.learn.test.algorithm;
 
-import com.alibaba.fastjson.JSONObject;
-
 /**
  * 插入算法
  * 比较像整理纸牌，是对未排序的数据，在有序队列中从后向前扫描找到合适位置插入。
@@ -9,14 +7,15 @@ import com.alibaba.fastjson.JSONObject;
  * @author Bai
  * @date 2021/8/22 13:53
  */
-public class InsertionSort {
+public class InsertionSort extends BaseSort {
 
 	/**
 	 * 升序排序
 	 *
 	 * @param arr
 	 */
-	public static void ascSort (int[] arr) {
+	@Override
+	void ascSort (int[] arr) {
 		if (null == arr || arr.length < 2) {
 			return;
 		}
@@ -27,7 +26,8 @@ public class InsertionSort {
 		}
 	}
 
-	public static void descSort (int[] arr) {
+	@Override
+	void descSort (int[] arr) {
 		if (null == arr || arr.length < 2) {
 			return;
 		}
@@ -38,18 +38,7 @@ public class InsertionSort {
 		}
 	}
 
-	private static void swap (int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
-	}
-
 	public static void main (String[] args) {
-		int[] arr = {6, 3, 5, 2, 4, 1};
-		int[] arr1 = {6, 3, 5, 2, 4, 1};
-		ascSort(arr);
-		descSort(arr1);
-		System.out.println(JSONObject.toJSONString(arr));
-		System.out.println(JSONObject.toJSONString(arr1));
+		run(new InsertionSort());
 	}
 }
