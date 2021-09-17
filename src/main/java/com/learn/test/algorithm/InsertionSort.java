@@ -19,7 +19,10 @@ public class InsertionSort extends BaseSort {
 		if (null == arr || arr.length < 2) {
 			return;
 		}
+		//正循环：每次都取未排序序列中的首位
 		for (int i = 1; i < arr.length; i++) {
+			//倒循环：将正循环取出来的数 放到有序序列中进行比较
+			//注意：每次倒循环符合条件的并进入执行swap的次数只有一次，因为倒循环是对有序序列的循环比较，所以正循环取出的数只要比某个数小就插入
 			for (int j = i; j > 0 && arr[j] < arr[j - 1]; j--) {
 				swap(arr, j, j - 1);
 			}
