@@ -3,7 +3,8 @@ package com.learn.test.algorithm;
 import java.util.Arrays;
 
 /**
- * 希尔排序
+ * 希尔排序：是插入排序的一种优化，一般不用这个算法，稳定度不好
+ * 使用间隔数据比较，每次只比较间隔数范围内的数值
  *
  * @author Bai
  * @date 2021/9/16 22:24
