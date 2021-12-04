@@ -31,7 +31,7 @@ public class MyListTest {
 		List<String> strings = Lists.newArrayList("3", "4");
 //		System.out.println(list.containsAll(strings));
 //		list.removeAll(strings);
-		list.addAll(1,strings);
+		list.addAll(1, strings);
 		System.out.println(list.toString());
 	}
 
@@ -59,11 +59,11 @@ public class MyListTest {
 //		myList.removeAll(strings);
 //		System.out.println(myList.containsAll(strings));
 
-		MyList<Integer> myList1 = new MyList<>();
-		myList1.add(21);
-		myList1.add(22);
-		myList1.add(23);
-		myList.addAll(3,myList1);
+//		MyList<Integer> myList1 = new MyList<>();
+//		myList1.add(21);
+//		myList1.add(22);
+//		myList1.add(23);
+//		myList.addAll(1, myList1);
 
 		System.out.println(myList.toString());
 		System.out.println(myList.size());

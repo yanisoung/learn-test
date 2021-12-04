@@ -226,7 +226,20 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public void add (int index, E element) {
+		//索引边界校验
+		rangeCheck(index);
 
+		//扩容校验：判断element的length是否可以放下多一个元素
+		growCapacity(size + 1);
+		//src: 数据源
+		//srcPos: 从数据源哪个下标开始复制
+		//element: 要复制到的数组
+		//size：复制到数组时从哪个下标开始
+		//numb：要复制的长度
+		//将index后的数据复制到后面，中间空出来存放src数组的长度
+		System.arraycopy(this.element, index, this.element, index + 1, size - index - 1);
+		this.element[index] = element;
+		size += 1;
 	}
 
 	@Override
@@ -293,8 +306,14 @@ public class MyList<E> implements List<E> {
 	}
 
 	@Override
-	public List subList (int fromIndex, int toIndex) {
-		return null;
+	public List<E> subList (int fromIndex, int toIndex) {
+		rangeCheck(fromIndex);
+		rangeCheck(toIndex);
+		List<E> result = new MyList<>();
+		for (int i = fromIndex; i < toIndex; i++) {
+			result.add((E)this.element[i]);
+		}
+		return result;
 	}
 
 	@Override
