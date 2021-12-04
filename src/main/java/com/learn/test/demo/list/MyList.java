@@ -163,12 +163,44 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public boolean addAll (Collection c) {
-		return false;
+		Object[] src = c.toArray();
+		//要添加的数组的长度
+		int numb = src.length;
+		//扩容校验：判断element的length是否足够存放c里的数据
+		growCapacity(size + numb);
+		//src: 数据源
+		//srcPos: 从数据源哪个下标开始复制
+		//element: 要复制到的数组
+		//size：复制到数组时从哪个下标开始
+		//numb：要复制的长度
+		System.arraycopy(src, 0, element, size, numb);
+		size += numb;
+		//System.arraycopy 没有返回值，要判断是否复制成功，可以以是否有需要复制的个数为主
+		return numb != 0;
 	}
 
 	@Override
 	public boolean addAll (int index, Collection c) {
-		return false;
+		//索引边界校验
+		rangeCheck(index);
+
+		Object[] src = c.toArray();
+		//要添加的数组的长度
+		int numb = src.length;
+		//扩容校验：判断element的length是否足够存放c里的数据
+		growCapacity(size + numb);
+		//src: 数据源
+		//srcPos: 从数据源哪个下标开始复制
+		//element: 要复制到的数组
+		//size：复制到数组时从哪个下标开始
+		//numb：要复制的长度
+		//将index后的数据复制到后面，中间空出来存放src数组的长度
+		System.arraycopy(element, index, element, index + numb, size - index - 1);
+		//从index开始复制src长度的个数
+		System.arraycopy(src, 0, element, index, numb);
+		size += numb;
+		//System.arraycopy 没有返回值，要判断是否复制成功，可以以是否有需要复制的个数为主
+		return numb != 0;
 	}
 
 	@Override

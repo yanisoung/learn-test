@@ -12,8 +12,8 @@ import com.google.common.collect.Lists;
 public class MyListTest {
 
 	public static void main (String[] args) {
-		myListDemo();
-//		listDemo();
+//		myListDemo();
+		listDemo();
 	}
 
 	public static void listDemo () {
@@ -22,16 +22,16 @@ public class MyListTest {
 		list.add("1");
 		list.add("1");
 		list.add(null);
-		list.set(0, "12");
-//		list.remove("1");
-		System.out.println(list.indexOf(null));
-		System.out.println(list.indexOf("1"));
-
-//		list.clear();
-		List<String> strings = Lists.newArrayList("2", "1");
-		System.out.println(list.containsAll(strings));
-		list.removeAll(strings);
-		System.out.println(list.containsAll(strings));
+//		list.set(0, "12");
+////		list.remove("1");
+//		System.out.println(list.indexOf(null));
+//		System.out.println(list.indexOf("1"));
+//
+////		list.clear();
+		List<String> strings = Lists.newArrayList("3", "4");
+//		System.out.println(list.containsAll(strings));
+//		list.removeAll(strings);
+		list.addAll(1,strings);
 		System.out.println(list.toString());
 	}
 
@@ -54,10 +54,16 @@ public class MyListTest {
 //		System.out.println(myList.lastIndexOf("11"));
 //		System.out.println(myList.lastIndexOf(null));
 //		myList.clear();
-		List<String> strings = Lists.newArrayList("4", "1");
-		System.out.println(myList.containsAll(strings));
-		myList.removeAll(strings);
-		System.out.println(myList.containsAll(strings));
+//		List<String> strings = Lists.newArrayList("4", "1");
+//		System.out.println(myList.containsAll(strings));
+//		myList.removeAll(strings);
+//		System.out.println(myList.containsAll(strings));
+
+		MyList<Integer> myList1 = new MyList<>();
+		myList1.add(21);
+		myList1.add(22);
+		myList1.add(23);
+		myList.addAll(3,myList1);
 
 		System.out.println(myList.toString());
 		System.out.println(myList.size());
