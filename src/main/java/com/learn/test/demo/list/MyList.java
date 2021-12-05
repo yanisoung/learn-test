@@ -260,6 +260,7 @@ public class MyList<E> implements List<E> {
 		if (size == 0) {
 			return -1;
 		}
+		//为什么需要判null？因为这里比较时使用的equals，不判空否则会报nullPointE
 		if (null == o) {
 			for (int i = 0; i < size; i++) {
 				if (this.element[i] == null) {
@@ -318,17 +319,66 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public boolean retainAll (Collection c) {
-		return false;
+		Objects.requireNonNull(c);
+		return batchRemove(c, true);
+	}
+
+	/**
+	 * 保留还是去除数据
+	 *
+	 * @param c          数据集合
+	 * @param complement true 保留 false 不保留
+	 * @return
+	 */
+	private boolean batchRemove (Collection c, Boolean complement) {
+		boolean result = false;
+		//循环element时的下标
+		int r = 0;
+		//存放有效数据的下标
+		int w = 0;
+		try {
+			//判断element里的元素是否在c中存在，如果存在的话，就往前存一下
+			for (; r < size; r++) {
+				//循环取element的每个元素,判断元素是否存在要保留或是要去除的集合里
+				//complement：true 保留，false 不保留
+				//c.contains(this.element[r]) == complement，有四种情况需要处理：
+				//1.complement = true,保留并且element包含(true)，则将数据往前移，保留数据
+				//2.complement = true,保留并且element不包含(false)，则不做任何处理，不保留数据
+				//3.complement = false,不保留并且element包含(true)，则不做任何处理，不保留数据
+				//4.complement = false,不保留并且element不包含(false)，则将数据往前移，保留数据
+				//以上4种情况，只有1和4需要处理，也就是当true==true,false==false时才处理
+				if (c.contains(this.element[r]) == complement) {
+					this.element[w++] = this.element[r];
+				}
+			}
+		} finally {
+			//防止出现异常时，数组数据受到影响
+			//如果r!=size 就表示循环没有正常执行完成，出现了异常，
+			// 这时候需要整理未循环到的数据，以及将不需要保留的数据清除
+			if (r != size) {
+				//将r索引之后未循环到的数据前移到 w后，w前的数据都是循环过需要保留的数据
+				System.arraycopy(element, r, element, w, size - r);
+				//重新赋值w：正常执行完后会清空w后的数据，所以这里也要赋值w，不要清除未循环到的数据，以免丢失
+				w += size - r;
+			}
+			//w=size：说明没有数据做了去除，所以不需要处理
+			if (w != size) {
+				//将w后的数据都去除
+				for (int i = size; i >= w; i--) {
+					this.element[i] = null;
+				}
+				//重新计算数组的size，这里w不需要+1，是因为w包含了当前元素的个数以及下个接下来要存放元素的下标
+				size = w;
+				result = true;
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public boolean removeAll (Collection c) {
-		for (Object o : c) {
-			while (contains(o)) {
-				remove(o);
-			}
-		}
-		return true;
+		Objects.requireNonNull(c);
+		return batchRemove(c, false);
 	}
 
 	@Override
