@@ -107,6 +107,7 @@ public class MyList<E> implements List<E> {
 		}
 		//原容量1.5倍库容
 		int newMinCapacity = element.length + element.length >> 1;
+		//如果扩容1.5倍后容量还是比需要的最小的容量小，则使用需要最小容量
 		if (newMinCapacity - needMinCapacity > 0) {
 			needMinCapacity = newMinCapacity;
 		}
