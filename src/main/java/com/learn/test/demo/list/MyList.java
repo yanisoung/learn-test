@@ -327,7 +327,7 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public ListIterator listIterator () {
-		return null;
+		return new MyListItr();
 	}
 
 	@Override
@@ -552,6 +552,39 @@ public class MyList<E> implements List<E> {
 			lastRet = -1;
 			//重新赋值当前修改次数，与外部的修改次数保持一致
 			expectedModCount = modCount;
+		}
+	}
+
+	public class MyListItr extends MyItr implements ListIterator<E> {
+
+		@Override
+		public boolean hasPrevious () {
+			return false;
+		}
+
+		@Override
+		public E previous () {
+			return null;
+		}
+
+		@Override
+		public int nextIndex () {
+			return 0;
+		}
+
+		@Override
+		public int previousIndex () {
+			return 0;
+		}
+
+		@Override
+		public void set (E e) {
+
+		}
+
+		@Override
+		public void add (E e) {
+
 		}
 	}
 }
