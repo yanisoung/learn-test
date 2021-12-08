@@ -2,9 +2,11 @@ package com.learn.test.demo.list;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -33,6 +35,11 @@ public class MyList<E> implements List<E> {
 	 * 当前数组存放的个数（element.length 代表的是数组的容量，也就是数组可以存多少个数据）
 	 */
 	private int size;
+
+	/**
+	 * 记录当前集合修改次数，该字段主要用于迭代器对比数据是否有修改
+	 */
+	private int modCount;
 
 	public MyList () {
 		this.element = new Object[] {};
@@ -66,7 +73,7 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public Iterator iterator () {
-		return null;
+		return new MyItr();
 	}
 
 	@Override
@@ -77,6 +84,9 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public boolean add (E o) {
+		//增加修改次数
+		modCount++;
+
 		//check是否需要对数组进行扩容，并执行扩容
 		//为什么要传入size+1？因为size是当前数组存的数据个数，在加入新的数据时，需要判断数组是否有足够的长度来存放新加入的数据
 		growCapacity(size + 1);
@@ -97,6 +107,10 @@ public class MyList<E> implements List<E> {
 	 * @param needMinCapacity 需要的最小容量
 	 */
 	private void growCapacity (int needMinCapacity) {
+		//增加修改次数
+		//todo 为什么修改时也要增加修改次数？白
+		modCount++;
+
 		//当前数组的容量不够时，进行扩容
 		if (element.length - needMinCapacity > 0) {
 			return;
@@ -143,6 +157,9 @@ public class MyList<E> implements List<E> {
 	}
 
 	private void fastRemove (int index) {
+		//增加修改次数
+		modCount++;
+
 		//移除某个数据时，其实就是将要移除的数据之后的所有数据都向前移动一位
 		//要移动的数据个数：
 		// size是目前存放的所有数据的总数，index是数据所在数组中的下标，
@@ -164,6 +181,9 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public boolean addAll (Collection c) {
+		//增加修改次数
+		modCount++;
+
 		Object[] src = c.toArray();
 		//要添加的数组的长度
 		int numb = src.length;
@@ -184,6 +204,9 @@ public class MyList<E> implements List<E> {
 	public boolean addAll (int index, Collection c) {
 		//索引边界校验
 		rangeCheck(index);
+
+		//增加修改次数
+		modCount++;
 
 		Object[] src = c.toArray();
 		//要添加的数组的长度
@@ -207,6 +230,7 @@ public class MyList<E> implements List<E> {
 	@Override
 	public void clear () {
 		for (int i = 0; i < size; i++) {
+			//清除引用释放资源，如果当前元素没有再被引用，就会引起GC回收
 			this.element[i] = null;
 		}
 	}
@@ -229,7 +253,8 @@ public class MyList<E> implements List<E> {
 	public void add (int index, E element) {
 		//索引边界校验
 		rangeCheck(index);
-
+		//增加修改次数
+		modCount++;
 		//扩容校验：判断element的length是否可以放下多一个元素
 		growCapacity(size + 1);
 		//src: 数据源
@@ -246,12 +271,15 @@ public class MyList<E> implements List<E> {
 	@Override
 	public E remove (int index) {
 		rangeCheck(index);
-
+		//增加修改次数
+		modCount++;
 		Object oldValue = element[index];
+		//计算要移动的元素个数：-index时减去的是个数，因为index是从0开始的，而size是统计的个数从1开始 与index相差了一个，所以需要-1
 		int removeCount = size - index - 1;
 		if (removeCount > 0) {
 			System.arraycopy(element, index + 1, element, index, removeCount);
 		}
+		//移除一位元素时，则size-1，同时置为null，如果元素没有再被引用则会引起GC回收
 		element[--size] = null;
 		return (E)oldValue;
 	}
@@ -311,6 +339,9 @@ public class MyList<E> implements List<E> {
 	public List<E> subList (int fromIndex, int toIndex) {
 		rangeCheck(fromIndex);
 		rangeCheck(toIndex);
+		//增加修改次数
+		modCount++;
+
 		List<E> result = new MyList<>();
 		for (int i = fromIndex; i < toIndex; i++) {
 			result.add((E)this.element[i]);
@@ -364,6 +395,8 @@ public class MyList<E> implements List<E> {
 			}
 			//w=size：说明没有数据做了去除，所以不需要处理
 			if (w != size) {
+				//增加修改次数
+				modCount++;
 				//将w后的数据都去除
 				for (int i = size; i >= w; i--) {
 					this.element[i] = null;
@@ -444,5 +477,81 @@ public class MyList<E> implements List<E> {
 			}
 		}
 		return sb.toString();
+	}
+
+	public class MyItr implements Iterator<E> {
+		/**
+		 * 下个元素的下标
+		 */
+		int cursor;
+
+		/**
+		 * 返回的最新元素的下标，默认-1
+		 */
+		int lastRet = -1;
+
+		/**
+		 * 集合操作次数，默认使用MyList的操作次数，该字段主要用来校验foreach时数组是否进行了修改
+		 */
+		int expectedModCount = modCount;
+
+		@Override
+		public boolean hasNext () {
+			return cursor != size;
+		}
+
+		@Override
+		public E next () {
+			//结构性修改校验
+			checkForComodification();
+
+			int index = cursor;
+			if (index >= size) {
+				throw new NoSuchElementException();
+			}
+			Object[] element = MyList.this.element;
+			if (index >= element.length) {
+				throw new ConcurrentModificationException();
+			}
+			//cursor++：继续计算下个元素的下标
+			cursor++;
+			//lastRet = cursor：下个元素的下标其实就是当前要取的值的下标，取完值后就变成了最后一个返回的元素下标，
+			// 所以直接进将下个元素的下标直接赋值最后一个返回的元素下标是可以的
+			return (E)element[lastRet = index];
+
+			//下面的写法就是上面写法的简化版
+//			return (E)MyList.this.element[lastRet = cursor++];
+		}
+
+		/**
+		 * 校验在foreach期间是否存在结构性修改
+		 * 结构性修改包括：添加/插入/删除，如果只是修改某个元素内容则不属于结构性修改
+		 */
+		private void checkForComodification () {
+			if (expectedModCount != modCount) {
+				throw new ConcurrentModificationException();
+			}
+		}
+
+		@Override
+		public void remove () {
+			//校验是否调用next接口
+			if (lastRet < 0) {
+				throw new IllegalStateException();
+			}
+			//结构性修改校验
+			checkForComodification();
+			//调用MyList的remove方法
+			MyList.this.remove(lastRet);
+			//cursor是下个元素的下标，lastRet是最后返回的下标，两者之间是差了1位，
+			// 移除当前的元素后，后面的所有元素都会向前移动一位，也就是这些元素的索引都-1了，
+			// 被移除元素后面一位元素也就重新移动到了当前移除元素的所有位置，也就是lastRet的位置是新的元素了
+			// 而下个元素的索引位置也需要往前移动一位，因此：cursor = cursor -1 = lastRet
+			cursor = lastRet;
+			//因为元素被移除后就不存在这个元素对应的索引了，所以lastRet赋值为-1
+			lastRet = -1;
+			//重新赋值当前修改次数，与外部的修改次数保持一致
+			expectedModCount = modCount;
+		}
 	}
 }

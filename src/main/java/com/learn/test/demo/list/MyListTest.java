@@ -1,6 +1,7 @@
 package com.learn.test.demo.list;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -12,8 +13,8 @@ import com.google.common.collect.Lists;
 public class MyListTest {
 
 	public static void main (String[] args) {
-		myListDemo();
-//		listDemo();
+//		myListDemo();
+		listDemo();
 	}
 
 	public static void listDemo () {
@@ -31,8 +32,15 @@ public class MyListTest {
 //		List<String> strings = Lists.newArrayList("3", "4");
 //		System.out.println(list.containsAll(strings));
 //		list.removeAll(strings);
+		for (String s : list) {
+			list.addAll(Lists.newArrayList("44"));
+		}
+		Iterator<String> iterator = list.iterator();
 //		list.addAll(1, strings);
-		list.retainAll(Lists.newArrayList());
+//		while (iterator.hasNext()) {
+//			iterator.next();
+//			iterator.remove();
+//		}
 		System.out.println(list.toString());
 	}
 
@@ -66,6 +74,9 @@ public class MyListTest {
 //		myList1.add(23);
 //		myList.addAll(1, myList1);
 //		myList.retainAll(Lists.newArrayList("4","5"));
+		for (String s : myList) {
+			myList.set(1,s);
+		}
 		System.out.println(myList.toString());
 		System.out.println(myList.size());
 	}
