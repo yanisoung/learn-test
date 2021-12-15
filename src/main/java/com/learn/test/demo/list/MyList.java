@@ -11,6 +11,11 @@ import java.util.Objects;
 
 /**
  * 实现自己的集合
+ * 问题集合：
+ * 1.为什么会有EMPTY_ELEMENTDATA和DEFAULTCAPACITY_EMPTY_ELEMENTDATA两个？
+ * 2.为什么使用modCount统计修改次数作为修改校验？
+ * 3.为什么迭代器里要校验是否做过修改？
+ * 4.为什么扩容也要增加修改次数？迭代器获取数据时为什么要判断是否超过了数组的长度？
  *
  * @author Bai
  * @date 2021/11/24 21:03
@@ -63,7 +68,7 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public boolean isEmpty () {
-		return size < 1;
+		return size == 0;
 	}
 
 	@Override
@@ -129,7 +134,12 @@ public class MyList<E> implements List<E> {
 		if (needMinCapacity > MAX_CAPACITY) {
 			needMinCapacity = Integer.MAX_VALUE;
 		}
-		this.element = Arrays.copyOf(element, needMinCapacity);
+//		this.element = Arrays.copyOf(element, needMinCapacity);
+		Object[] element = new Object[needMinCapacity];
+		for (int i = 0; i < size; i++) {
+			element[i] = this.element[i];
+		}
+		this.element = element;
 	}
 
 	@Override
@@ -141,14 +151,14 @@ public class MyList<E> implements List<E> {
 		if (null == o) {
 			for (int i = 0; i < size; i++) {
 				if (element[i] == null) {
-					fastRemove(i);
+					fastRemoveV1(i);
 					return true;
 				}
 			}
 		} else {
 			for (int i = 0; i < size; i++) {
 				if (o.equals(this.element[i])) {
-					fastRemove(i);
+					fastRemoveV2(i);
 					return true;
 				}
 			}
@@ -156,7 +166,7 @@ public class MyList<E> implements List<E> {
 		return false;
 	}
 
-	private void fastRemove (int index) {
+	private void fastRemoveV1 (int index) {
 		//增加修改次数
 		modCount++;
 
@@ -179,6 +189,16 @@ public class MyList<E> implements List<E> {
 		element[--size] = null;
 	}
 
+	private void fastRemoveV2 (int index) {
+		//增加修改次数
+		modCount++;
+		//将要移除的元素后面的元素都往前移一位，将最后的元素置为null
+		for (int i = index + 1; i < this.size; i++) {
+			this.element[i - 1] = this.element[i];
+		}
+		this.element[--size] = null;
+	}
+
 	@Override
 	public boolean addAll (Collection c) {
 		//增加修改次数
@@ -194,6 +214,7 @@ public class MyList<E> implements List<E> {
 		//element: 要复制到的数组
 		//size：复制到数组时从哪个下标开始
 		//numb：要复制的长度
+		//整块内存移动复制
 		System.arraycopy(src, 0, element, size, numb);
 		size += numb;
 		//System.arraycopy 没有返回值，要判断是否复制成功，可以以是否有需要复制的个数为主
@@ -252,11 +273,16 @@ public class MyList<E> implements List<E> {
 	@Override
 	public void add (int index, E element) {
 		//索引边界校验
-		rangeCheck(index);
+		rangeCheckForAdd(index);
 		//增加修改次数
 		modCount++;
 		//扩容校验：判断element的length是否可以放下多一个元素
 		growCapacity(size + 1);
+//		addV1(index, element);
+		addV2(index, element);
+	}
+
+	private void addV1 (int index, E element) {
 		//src: 数据源
 		//srcPos: 从数据源哪个下标开始复制
 		//element: 要复制到的数组
@@ -266,6 +292,15 @@ public class MyList<E> implements List<E> {
 		System.arraycopy(this.element, index, this.element, index + 1, size - index - 1);
 		this.element[index] = element;
 		size += 1;
+	}
+
+	private void addV2 (int index, E element) {
+		//循环将index后面的元素都往后移动一位
+		for (int i = this.size; i > index; i--) {
+			this.element[i] = this.element[i - 1];
+		}
+		this.element[index] = element;
+		size++;
 	}
 
 	@Override
@@ -332,7 +367,7 @@ public class MyList<E> implements List<E> {
 
 	@Override
 	public ListIterator listIterator (int index) {
-		return null;
+		return new MyListItr();
 	}
 
 	@Override
@@ -453,6 +488,18 @@ public class MyList<E> implements List<E> {
 		}
 	}
 
+	/**
+	 * 添加时边界校验
+	 *
+	 * @param index
+	 */
+	public void rangeCheckForAdd (int index) {
+		//添加时如果添加到最后一个索引也是允许的
+		if (index > size || index < 0) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
+	}
+
 	@Override
 	public String toString () {
 		if (size == 0) {
@@ -486,7 +533,7 @@ public class MyList<E> implements List<E> {
 		int cursor;
 
 		/**
-		 * 返回的最新元素的下标，默认-1
+		 * 返回的最后一个元素的下标，默认-1
 		 */
 		int lastRet = -1;
 
@@ -557,33 +604,58 @@ public class MyList<E> implements List<E> {
 
 	public class MyListItr extends MyItr implements ListIterator<E> {
 
+		/**
+		 * 反向迭代 是否还有上一个
+		 *
+		 * @return
+		 */
 		@Override
 		public boolean hasPrevious () {
-			return false;
+			return cursor != 0;
 		}
 
+		/**
+		 * 反向迭代 获取上一个元素
+		 *
+		 * @return
+		 */
 		@Override
 		public E previous () {
-			return null;
+			int previousIndex = cursor - 1;
+			if (previousIndex > size || previousIndex < 0) {
+				throw new ArrayIndexOutOfBoundsException();
+			}
+			cursor = previousIndex;
+			return (E)MyList.this.element[lastRet = previousIndex];
 		}
 
 		@Override
 		public int nextIndex () {
-			return 0;
+			return cursor;
 		}
 
+		/**
+		 * 上一个元素的索引
+		 *
+		 * @return
+		 */
 		@Override
 		public int previousIndex () {
-			return 0;
+			return cursor - 1;
 		}
 
 		@Override
 		public void set (E e) {
-
+			MyList.this.set(cursor, e);
 		}
 
 		@Override
 		public void add (E e) {
+			//todo 这里为什么要=-1？
+			lastRet = cursor;
+			MyList.this.add(lastRet, e);
+			expectedModCount = modCount;
+			cursor++;
 
 		}
 	}
