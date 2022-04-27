@@ -1,4 +1,4 @@
-package com.learn.test.demo.myThread;
+package com.learn.test.demo.myThread.runnable;
 
 /**
  * 2.实现Runnable类创建线程

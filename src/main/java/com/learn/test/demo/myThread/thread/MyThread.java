@@ -1,4 +1,4 @@
-package com.learn.test.demo.myThread;
+package com.learn.test.demo.myThread.thread;
 
 /**
  * 实现线程的方式1：继承Thread类

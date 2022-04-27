@@ -1,6 +1,10 @@
 package com.learn.test.demo.myThread;
 
 import com.learn.test.PrintUtils;
+import com.learn.test.demo.myThread.runnable.AnonymousCreateDemo;
+import com.learn.test.demo.myThread.runnable.LambdaCreateThreadDemo;
+import com.learn.test.demo.myThread.runnable.MyRunnable;
+import com.learn.test.demo.myThread.thread.MyThread;
 
 /**
  * @author Bai
@@ -24,8 +28,10 @@ public class ThreadDemo {
 	public static void createTread () {
 		createByThread();
 		createByRunnable();
-		anonymousCreateByRunnable();
-		lambdaCreateByRunnable();
+		//lambda表达式创建线程
+		LambdaCreateThreadDemo.create();
+		//使用匿名类创建线程
+		AnonymousCreateDemo.create();
 	}
 
 	/***
@@ -45,38 +51,6 @@ public class ThreadDemo {
 		for (int i = 0; i < 3; i++) {
 			MyRunnable myThread = new MyRunnable();
 			Thread thread = new Thread(myThread, "MyRunnable-" + i);
-			thread.start();
-		}
-	}
-
-	/**
-	 * 2.1匿名内部类创建线程
-	 */
-	public static void anonymousCreateByRunnable () {
-		for (int i = 0; i < 3; i++) {
-			Thread thread = new Thread(new Runnable() {
-				@Override
-				public void run () {
-					for (int i = 0; i < 10; i++) {
-						System.out.println("线程名：" + Thread.currentThread().getName() + "，运行了" + i);
-					}
-					System.out.println("线程名：" + Thread.currentThread().getName() + "，运行结束");
-				}
-			}, "AnonymousRunnable-" + i);
-			thread.start();
-		}
-	}
-	/**
-	 * 2.2 Lambda表达式创建线程
-	 */
-	public static void lambdaCreateByRunnable () {
-		for (int i = 0; i < 3; i++) {
-			Thread thread = new Thread(() -> {
-				for (int i1 = 0; i1 < 10; i1++) {
-					System.out.println("线程名：" + Thread.currentThread().getName() + "，运行了" + i1);
-				}
-				System.out.println("线程名：" + Thread.currentThread().getName() + "，运行结束");
-			}, "LambdaRunnable-" + i);
 			thread.start();
 		}
 	}
