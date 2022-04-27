@@ -2,6 +2,7 @@ package com.learn.test.demo.myThread;
 
 import com.learn.test.PrintUtils;
 import com.learn.test.demo.myThread.runnable.AnonymousCreateDemo;
+import com.learn.test.demo.myThread.runnable.GoodsStockDemo;
 import com.learn.test.demo.myThread.runnable.LambdaCreateThreadDemo;
 import com.learn.test.demo.myThread.runnable.MyRunnable;
 import com.learn.test.demo.myThread.thread.MyThread;
@@ -32,6 +33,22 @@ public class ThreadDemo {
 		LambdaCreateThreadDemo.create();
 		//使用匿名类创建线程
 		AnonymousCreateDemo.create();
+		//实现Runnable模拟库存减少
+		goodsStockTest();
+	}
+
+	/**
+	 * 模拟库存减少
+	 */
+	private static void goodsStockTest () {
+		//库存数量：被所有销售员共享
+		GoodsStockDemo goodsStockDemo = new GoodsStockDemo();
+		//模拟5个销售员
+		for (int i = 0; i < 5; i++) {
+			//每次开启一个新线程模拟一个销售员，共享一个实例goodsStockDemo，保证库存数量被所有销售员共享
+			Thread thread = new Thread(goodsStockDemo, "销售员-" + i);
+			thread.start();
+		}
 	}
 
 	/***
