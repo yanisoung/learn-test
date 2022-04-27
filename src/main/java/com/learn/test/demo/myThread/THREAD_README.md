@@ -16,3 +16,9 @@
 优点：
 1.解耦，可扩展性好
 2.适用于多个线程需要共享资源的场景，例如库存的增减 demo:com.learn.test.demo.myThread.ThreadDemo.goodsStockTest
+
+
+继承Thread类和实现Runnable类的区别：
+1.继承Thread类可以更好的实现多线程的并发，使每个线程更专注的完成各自的任务
+2.实现Runnable类可以更好的实现多个线程并发的完成同一个任务，访问共享资源
+3.当实现Runnable类并且多个线程共享资源时，需要使用原子类数据类型或是限制同步操作
