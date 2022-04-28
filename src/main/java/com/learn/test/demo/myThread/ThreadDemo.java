@@ -1,6 +1,10 @@
 package com.learn.test.demo.myThread;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+
 import com.learn.test.PrintUtils;
+import com.learn.test.demo.myThread.futrue.MyReturnableTask;
 import com.learn.test.demo.myThread.runnable.AnonymousCreateDemo;
 import com.learn.test.demo.myThread.runnable.GoodsStockDemo;
 import com.learn.test.demo.myThread.runnable.LambdaCreateThreadDemo;
@@ -23,11 +27,13 @@ public class ThreadDemo {
 	 * 1.继承Thread类
 	 * 2.实现Runnable类
 	 * 优雅实现Runnable类的两种方式：1.使用匿名内部类 2.使用lamb表达式
-	 * 3.使用线程池
-	 * 4.使用线程工具类
+	 * 3.使用Callable和FutureTask类创建线程池
+	 * 4.使用线程池
 	 */
 	public static void createTread () {
+//		1.继承Thread类
 		createByThread();
+//		2.实现Runnable类
 		createByRunnable();
 		//lambda表达式创建线程
 		LambdaCreateThreadDemo.create();
@@ -35,6 +41,8 @@ public class ThreadDemo {
 		AnonymousCreateDemo.create();
 		//实现Runnable模拟库存减少
 		goodsStockTest();
+//		3.使用Runnable和Future创建带有异步返回值的线程类
+		callable();
 	}
 
 	/**
@@ -93,5 +101,20 @@ public class ThreadDemo {
 //		 public Thread() {
 //			init(null, null, "Thread-" + nextThreadNum(), 0);
 //		}
+	}
+
+	private static void callable () {
+		//FutureTask是RunnableFuture的默认实现类，RunnableFuture实现了Thread类和Future类同时具有了异步执行和获取异步执行结果的能力
+		//因为实现了Runnable类，所以可以作为Thread类的target属性类执行
+		FutureTask futureTask = new FutureTask(new MyReturnableTask());
+		Thread thread = new Thread(futureTask, "callable");
+		thread.start();
+		try {
+			Object o = futureTask.get();
+			System.out.println(o);
+		} catch (Exception e) {
+
+		}
+		System.out.println("callable执行结束了");
 	}
 }
