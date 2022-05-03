@@ -1,9 +1,12 @@
 package com.learn.test.demo.myThread;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 import com.learn.test.PrintUtils;
+import com.learn.test.demo.myThread.executors.ThreadExecutors;
 import com.learn.test.demo.myThread.futrue.MyReturnableTask;
 import com.learn.test.demo.myThread.runnable.AnonymousCreateDemo;
 import com.learn.test.demo.myThread.runnable.GoodsStockDemo;
@@ -16,6 +19,8 @@ import com.learn.test.demo.myThread.thread.MyThread;
  * @date 2022/4/26 21:16
  */
 public class ThreadDemo {
+
+	public static ExecutorService pool = ThreadExecutors.getPool();
 
 	public static void main (String[] args) {
 //		emptyThread();
@@ -43,6 +48,21 @@ public class ThreadDemo {
 		goodsStockTest();
 //		3.使用Runnable和Future创建带有异步返回值的线程类
 		callable();
+		//4.线程池创建线程
+		executors();
+	}
+
+	public static void executors () {
+		//无返回值
+		pool.execute(new MyThread("Pool-execute-MyThread"));
+		//带返回值
+		Future<Integer> submit = pool.submit(new MyReturnableTask());
+		try {
+			Integer integer = submit.get();
+			System.out.println(integer);
+		} catch (Exception e) {
+
+		}
 	}
 
 	/**
