@@ -8,6 +8,7 @@ import java.util.concurrent.FutureTask;
 import com.learn.test.PrintUtils;
 import com.learn.test.demo.myThread.executors.ThreadExecutors;
 import com.learn.test.demo.myThread.futrue.MyReturnableTask;
+import com.learn.test.demo.myThread.priority.ThreadSetPriority;
 import com.learn.test.demo.myThread.runnable.AnonymousCreateDemo;
 import com.learn.test.demo.myThread.runnable.GoodsStockDemo;
 import com.learn.test.demo.myThread.runnable.LambdaCreateThreadDemo;
@@ -24,7 +25,8 @@ public class ThreadDemo {
 
 	public static void main (String[] args) {
 //		emptyThread();
-		createTread();
+//		createTread();
+		threadSetPriority();
 	}
 
 	/**
@@ -136,5 +138,42 @@ public class ThreadDemo {
 
 		}
 		System.out.println("callable执行结束了");
+	}
+
+	/**
+	 * 线程优先级
+	 * 某次的执行结果：
+	 * 优先级1,执行次数：2048
+	 * 优先级2,执行次数：0
+	 * 优先级3,执行次数：0
+	 * 优先级4,执行次数：18141291
+	 * 优先级5,执行次数：740775471
+	 * 优先级6,执行次数：739640429
+	 * 优先级7,执行次数：1647130431
+	 * 优先级8,执行次数：1634365376
+	 * 优先级9,执行次数：613232553
+	 * 优先级10,执行次数：611550245
+	 */
+	private static void threadSetPriority () {
+		ThreadSetPriority[] threadSetPriorities = new ThreadSetPriority[10];
+		//初始化
+		for (int i = 0; i < threadSetPriorities.length; i++) {
+			ThreadSetPriority threadSetPriority = new ThreadSetPriority();
+			threadSetPriority.setPriority(i + 1);
+			threadSetPriorities[i] = threadSetPriority;
+		}
+		//启动线程设置优先级
+		for (int i = 0; i < threadSetPriorities.length; i++) {
+			threadSetPriorities[i].start();
+		}
+		//停止线程(生产环境不会用stop接口)
+		for (int i = 0; i < threadSetPriorities.length; i++) {
+			threadSetPriorities[i].stop();
+		}
+		//打印线程优先级与执行结果
+		for (int i = 0; i < threadSetPriorities.length; i++) {
+			ThreadSetPriority threadSetPriority = threadSetPriorities[i];
+			System.out.println("优先级" + threadSetPriority.getPriority() + ",执行次数：" + threadSetPriority.numb);
+		}
 	}
 }
