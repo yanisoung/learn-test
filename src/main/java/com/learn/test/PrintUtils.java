@@ -6,7 +6,11 @@ package com.learn.test;
  */
 public class PrintUtils {
 
-	public static void print(String str){
+	public static void print (String str) {
 		System.out.println(str);
+	}
+
+	public static void print (Object o) {
+		System.out.println(o);
 	}
 }

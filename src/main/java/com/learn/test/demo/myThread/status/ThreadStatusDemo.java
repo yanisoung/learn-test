@@ -14,7 +14,7 @@ import com.learn.test.thead.SleepUtils;
  */
 public class ThreadStatusDemo {
 
-	private static int MAX = 3;
+	private static int MAX = 30;
 	private static List<Thread> THREAD_LIST = new MyList<>();
 
 	public static void main (String[] args) {
@@ -34,7 +34,7 @@ public class ThreadStatusDemo {
 		threadStatus3.start();
 		SleepUtils.sleep(200);
 
-		SleepUtils.sleep(20000);
+		SleepUtils.sleep(200000);
 	}
 
 	public static class ThreadStatus extends Thread {
@@ -46,7 +46,7 @@ public class ThreadStatusDemo {
 		public void run () {
 			PrintUtils.print(getName() + "-" + getState());
 			for (int i = 0; i < MAX; i++) {
-				SleepUtils.sleep(200);
+				SleepUtils.sleep(20000);
 				printAllStatus();
 			}
 			PrintUtils.print(getName() + "-" + "执行结束了");
