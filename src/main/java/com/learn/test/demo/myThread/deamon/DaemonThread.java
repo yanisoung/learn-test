@@ -21,11 +21,16 @@ public class DaemonThread extends Thread {
 //            SleepUtils.sleep(500);
 //        }
 
+    /**
+     * 守护线程创建的线程也是守护线程
+     */
     @Override
     public void run() {
         PrintUtils.synTco("--daemon线程开始.");
         for (int i = 0; i < 4; i++) {
             Thread thread = new MyThread("线程-" + i);
+            //守护线程创建的线程也是守护线程，除非手动设置守护状态为false
+//            thread.setDaemon(false);
             thread.start();
             PrintUtils.synTco(thread.getName() + "--守护状态为:" + thread.isDaemon());// 线程睡眠一会，500毫秒
             SleepUtils.sleep(500);
