@@ -1,4 +1,4 @@
-package com.learn.test.demo.myThread.interrupt;
+package com.learn.test.demo.myThread.method.interrupt;
 
 import com.learn.test.PrintUtils;
 import com.learn.test.thead.SleepUtils;

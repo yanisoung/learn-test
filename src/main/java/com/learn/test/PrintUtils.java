@@ -32,4 +32,8 @@ public class PrintUtils {
             }
         });
     }
+
+    public synchronized static void synTco(String s) {
+        print(s);
+    }
 }
