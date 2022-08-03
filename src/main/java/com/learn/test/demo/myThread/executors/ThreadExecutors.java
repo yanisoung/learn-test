@@ -11,12 +11,21 @@ import java.util.concurrent.Executors;
  */
 public class ThreadExecutors {
 
-	/**
-	 * 创建一个固定线程数的线程池
-	 */
-	public static ExecutorService pool = Executors.newFixedThreadPool(3);
+    /**
+     * 创建一个固定线程数的线程池
+     */
+    public static ExecutorService FIXED_THREAD_POOL = Executors.newFixedThreadPool(3);
 
-	public static ExecutorService getPool () {
-		return pool;
-	}
+    /**
+     * 创建只有一个线程的线程池
+     */
+    public static ExecutorService SINGLE_THREAD_POOL = Executors.newSingleThreadExecutor();
+
+    public static ExecutorService getFixedThreadPool() {
+        return FIXED_THREAD_POOL;
+    }
+
+    public static ExecutorService getSingleThreadPool() {
+        return SINGLE_THREAD_POOL;
+    }
 }

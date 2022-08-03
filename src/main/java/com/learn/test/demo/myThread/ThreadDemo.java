@@ -20,7 +20,7 @@ import com.learn.test.demo.myThread.thread.MyThread;
  */
 public class ThreadDemo {
 
-	public static ExecutorService pool = ThreadExecutors.getPool();
+	public static ExecutorService pool = ThreadExecutors.getFixedThreadPool();
 
 	public static void main (String[] args) {
 //		emptyThread();

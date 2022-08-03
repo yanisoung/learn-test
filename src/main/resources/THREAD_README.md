@@ -34,7 +34,14 @@ FutureTask是RunnableFuture的默认实现类，RunnableFuture是继承了Runnab
 具有异步执行和获取异步返回值的能力。在调用FutureTask的run方法时，run方法内部会回调Future的call方法。
 
 使用线程池创建线程（实际生产中禁止使用Executors创建线程） 
-1.execute和submit方法的区别：
+execute和submit方法的区别：
 （入参）execute的入参是Runnable的实例，submit的入参可以是带FutureTask的实例也可以是Runnable的实例还可以是Thread的实例。 
 （返回值）execute无返回值，submit有返回值。
 execute是Executors的方法，submit是子类ExecutorService的方法。
+
+1. 单线程化线程池 Executors.newSingleThreadExecutor();
+   1>只有一个线程，按照任务提交的顺序，依次执行加入队列的任务
+   2>如果不调用shutdown()方法来关闭线程池，那么线程池中的线程时间就是无限的
+   3>当唯一的线程执行繁忙时，新加入的任务会被放入阻塞无解队列，队列的最大线程数是Integer.MAX_VALUE
+   4>调用shutdown()方法后，线程池不会马上关闭，会等待添加到队列中的所有任务执行完毕后退出；同时调用过shutdown()
+   后无法再向线程池内添加新的任务，添加新的任务则会报java.util.concurrent.RejectedExecutionException
