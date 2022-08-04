@@ -45,3 +45,7 @@ execute是Executors的方法，submit是子类ExecutorService的方法。
    3>当唯一的线程执行繁忙时，新加入的任务会被放入阻塞无解队列，队列的最大线程数是Integer.MAX_VALUE
    4>调用shutdown()方法后，线程池不会马上关闭，会等待添加到队列中的所有任务执行完毕后退出；同时调用过shutdown()
    后无法再向线程池内添加新的任务，添加新的任务则会报java.util.concurrent.RejectedExecutionException
+2. 固定线程数线程池 Executors.newFixedThreadPool(int size);
+   1>固定线程数线程池 每提交一个任务，则新增一个线程，直到线程池内线程数达到指定固定个数后，不再新增线程。
+   2>如果某个线程因为执行时出现异常而终止，那么线程池则会补充一个新的线程到线程池内
+   3>当线程池内的线程全部在繁忙状态时，新加入的任务会被放到无界队列中

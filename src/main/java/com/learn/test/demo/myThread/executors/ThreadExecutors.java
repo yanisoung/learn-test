@@ -25,6 +25,10 @@ public class ThreadExecutors {
         return FIXED_THREAD_POOL;
     }
 
+    public static ExecutorService getFixedThreadPool(int count) {
+        return Executors.newFixedThreadPool(count);
+    }
+
     public static ExecutorService getSingleThreadPool() {
         return SINGLE_THREAD_POOL;
     }

@@ -1,6 +1,7 @@
 package com.learn.test;
 
 import com.alibaba.fastjson.JSONObject;
+import com.learn.test.thead.ThreadUtils;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -35,5 +36,10 @@ public class PrintUtils {
 
     public synchronized static void synTco(String s) {
         print(s);
+    }
+
+    public synchronized static void printPool(String s) {
+        String pool = "[" + ThreadUtils.getThreadName() + "]";
+        print(pool + ":" + s);
     }
 }

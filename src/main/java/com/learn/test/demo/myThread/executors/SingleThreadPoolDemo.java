@@ -1,6 +1,7 @@
 package com.learn.test.demo.myThread.executors;
 
 
+import com.learn.test.PrintUtils;
 import com.learn.test.thead.SleepUtils;
 
 import java.util.concurrent.ExecutorService;
@@ -29,11 +30,11 @@ public class SingleThreadPoolDemo {
 
         @Override
         public void run() {
-            System.out.println(name + "开始执行了");
+            PrintUtils.printPool(name + "开始执行了");
             for (int i = 0; i < 10; i++) {
 
             }
-            System.out.println(name + "执行了结束了");
+            PrintUtils.printPool(name + "执行结束了");
         }
     }
 
