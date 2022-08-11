@@ -21,6 +21,11 @@ public class ThreadExecutors {
      */
     public static ExecutorService SINGLE_THREAD_POOL = Executors.newSingleThreadExecutor();
 
+    /**
+     * 创建可缓存的线程池
+     */
+    public static ExecutorService CACHED_THREAD_POOL = Executors.newCachedThreadPool();
+
     public static ExecutorService getFixedThreadPool() {
         return FIXED_THREAD_POOL;
     }
@@ -31,5 +36,9 @@ public class ThreadExecutors {
 
     public static ExecutorService getSingleThreadPool() {
         return SINGLE_THREAD_POOL;
+    }
+
+    public static ExecutorService getCachedThreadPool() {
+        return CACHED_THREAD_POOL;
     }
 }
