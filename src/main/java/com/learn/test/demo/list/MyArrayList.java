@@ -20,7 +20,7 @@ import java.util.Objects;
  * @author Bai
  * @date 2021/11/24 21:03
  */
-public class MyList<E> implements List<E> {
+public class MyArrayList<E> implements List<E> {
 	/**
 	 * 存储数据的元素
 	 */
@@ -46,11 +46,11 @@ public class MyList<E> implements List<E> {
 	 */
 	private int modCount;
 
-	public MyList () {
+	public MyArrayList () {
 		this.element = new Object[] {};
 	}
 
-	public MyList (Integer capacity) {
+	public MyArrayList (Integer capacity) {
 		if (capacity < 0) {
 			throw new RuntimeException();
 		}
@@ -377,7 +377,7 @@ public class MyList<E> implements List<E> {
 		//增加修改次数
 		modCount++;
 
-		List<E> result = new MyList<>();
+		List<E> result = new MyArrayList<>();
 		for (int i = fromIndex; i < toIndex; i++) {
 			result.add((E)this.element[i]);
 		}
@@ -556,7 +556,7 @@ public class MyList<E> implements List<E> {
 			if (index >= size) {
 				throw new NoSuchElementException();
 			}
-			Object[] element = MyList.this.element;
+			Object[] element = MyArrayList.this.element;
 			if (index >= element.length) {
 				throw new ConcurrentModificationException();
 			}
@@ -589,7 +589,7 @@ public class MyList<E> implements List<E> {
 			//结构性修改校验
 			checkForComodification();
 			//调用MyList的remove方法
-			MyList.this.remove(lastRet);
+			MyArrayList.this.remove(lastRet);
 			//cursor是下个元素的下标，lastRet是最后返回的下标，两者之间是差了1位，
 			// 移除当前的元素后，后面的所有元素都会向前移动一位，也就是这些元素的索引都-1了，
 			// 被移除元素后面一位元素也就重新移动到了当前移除元素的所有位置，也就是lastRet的位置是新的元素了
@@ -626,7 +626,7 @@ public class MyList<E> implements List<E> {
 				throw new ArrayIndexOutOfBoundsException();
 			}
 			cursor = previousIndex;
-			return (E)MyList.this.element[lastRet = previousIndex];
+			return (E)MyArrayList.this.element[lastRet = previousIndex];
 		}
 
 		@Override
@@ -646,14 +646,14 @@ public class MyList<E> implements List<E> {
 
 		@Override
 		public void set (E e) {
-			MyList.this.set(cursor, e);
+			MyArrayList.this.set(cursor, e);
 		}
 
 		@Override
 		public void add (E e) {
 			//todo 这里为什么要=-1？
 			lastRet = cursor;
-			MyList.this.add(lastRet, e);
+			MyArrayList.this.add(lastRet, e);
 			expectedModCount = modCount;
 			cursor++;
 

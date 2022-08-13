@@ -45,7 +45,7 @@ public class MyListTest {
 	}
 
 	public static void myListDemo () {
-		MyList<String> myList = new MyList<>(0);
+		MyArrayList<String> myList = new MyArrayList<>(0);
 		myList.add("2");
 		myList.add("1");
 		myList.add("2");

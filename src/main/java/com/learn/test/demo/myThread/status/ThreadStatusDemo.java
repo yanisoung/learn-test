@@ -3,7 +3,7 @@ package com.learn.test.demo.myThread.status;
 import java.util.List;
 
 import com.learn.test.PrintUtils;
-import com.learn.test.demo.list.MyList;
+import com.learn.test.demo.list.MyArrayList;
 import com.learn.test.thead.SleepUtils;
 
 /**
@@ -15,7 +15,7 @@ import com.learn.test.thead.SleepUtils;
 public class ThreadStatusDemo {
 
 	private static int MAX = 30;
-	private static List<Thread> THREAD_LIST = new MyList<>();
+	private static List<Thread> THREAD_LIST = new MyArrayList<>();
 
 	public static void main (String[] args) {
 		THREAD_LIST.add(Thread.currentThread());
