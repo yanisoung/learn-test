@@ -10,8 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 单线程化线程池
  * 1.只有一个线程，按照任务提交的顺序，依次执行加入队列的任务
- * 2.如果不调用shutdown()方法来关闭线程池，那么线程池中的线程时间就是无限的
- * 3.当唯一的线程执行繁忙时，新加入的任务会被放入阻塞无解队列，队列的最大线程数是Integer.MAX_VALUE
+ * 2.如果不调用shutdown()方法来关闭线程池，那么线程池中唯一线程的存活时间就是无限的
+ * 3.当唯一的线程执行繁忙时，新加入的任务会被放入阻塞无界队列，队列的最大线程数是Integer.MAX_VALUE
  * 4.调用shutdown()方法后，线程池不会马上关闭，会等待添加到队列中的所有任务执行完毕后退出；
  * 同时调用过shutdown()后无法再向线程池内添加新的任务，添加新的任务则会报java.util.concurrent.RejectedExecutionException
  */

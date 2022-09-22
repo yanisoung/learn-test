@@ -19,4 +19,9 @@ public class ThreadUtils {
         ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
         return threadPoolExecutor.getQueue().size();
     }
+
+    public static int getCorePoolSize(ExecutorService executorService) {
+        ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executorService;
+        return threadPoolExecutor.getCorePoolSize();
+    }
 }
