@@ -8,7 +8,6 @@ import java.util.concurrent.ExecutorService;
 public class ThreadLocalDemo {
 
 
-
     public static void main(String[] args) {
         ExecutorService executorService = CPUThreadPoolExecutors.get();
         for (int i = 0; i < 3; i++) {
@@ -19,8 +18,8 @@ public class ThreadLocalDemo {
                     String s = String.valueOf(finalI);
                     ThreadLocalHandler.set(s);
                     System.out.println(ThreadLocalHandler.get());
-                    //为什么不同线程下，访问同一个ThreadLocal，地址值不一样？
-                    System.out.println(System.identityHashCode(ThreadLocalHandler.getThreadLocal().hashCode()));
+                    //不同线程下访问同一个ThreadLocal，都是同一个TreadLocal实例，地址值是一样的
+                    System.out.println(System.identityHashCode(ThreadLocalHandler.getThreadLocal()));
                     ThreadLocalHandler.remove();
                 }
             });
