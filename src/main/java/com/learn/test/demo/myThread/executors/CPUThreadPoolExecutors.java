@@ -23,6 +23,10 @@ public class CPUThreadPoolExecutors {
             new LinkedBlockingQueue<>(128));
 
 
+    public static ExecutorService get() {
+        return threadExecutors;
+    }
+
     public static void main(String[] args) {
         System.out.println(ThreadUtils.getCorePoolSize(threadExecutors));
         System.out.println(Runtime.getRuntime().availableProcessors());
