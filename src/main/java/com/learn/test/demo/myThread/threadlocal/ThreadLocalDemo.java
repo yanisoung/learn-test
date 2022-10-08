@@ -17,9 +17,10 @@ public class ThreadLocalDemo {
                 public void run() {
                     String s = String.valueOf(finalI);
                     ThreadLocalHandler.set(s);
-                    System.out.println(ThreadLocalHandler.get());
+                    System.out.println("getThreadLocal:" + ThreadLocalHandler.getThreadLocal());
+                    System.out.println("get:" + ThreadLocalHandler.get());
                     //不同线程下访问同一个ThreadLocal，都是同一个TreadLocal实例，地址值是一样的
-                    System.out.println(System.identityHashCode(ThreadLocalHandler.getThreadLocal()));
+                    System.out.println("identityHashCode:" + System.identityHashCode(ThreadLocalHandler.getThreadLocal()));
                     ThreadLocalHandler.remove();
                 }
             });
