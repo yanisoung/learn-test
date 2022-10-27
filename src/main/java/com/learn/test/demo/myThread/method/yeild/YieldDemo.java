@@ -54,7 +54,7 @@ public class YieldDemo {
         //设置为最低的优先级
         Thread thread2 = new YieldThread();
         thread2.setPriority(Thread.MIN_PRIORITY);
-        PrintUtils.tco("启动线程.");
+        PrintUtils.tcfo("启动线程.");
         thread1.start();
         thread2.start();
         SleepUtils.sleep(100);
