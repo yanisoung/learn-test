@@ -1,4 +1,4 @@
-package com.learn.test.demo.myThread.safe.nosafe;
+package com.learn.test.demo.myThread.safe;
 
 import com.alibaba.fastjson.JSONObject;
 import com.learn.test.PrintUtils;
@@ -10,42 +10,43 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 生产者
+ * 消费者
  */
 @Data
-public class MyProducer implements Runnable {
+public class MyConsumer implements Runnable {
 
     /**
      * 默认间生产隔100毫秒
      */
-    private final static Long PRODUCE_GEP = 50L;
+    private final static Long CONSUMER_GEP = 150L;
 
     /**
-     * 生产者id
+     * 消费者id
      */
     private Long id;
 
     /**
-     * 生产者姓名
+     * 消费者姓名
      */
     private String name;
 
     /**
-     * 生产者执行动作
+     * 消费者执行动作
      */
     private Callable action = null;
 
     /**
      * 预计执行次数
      */
-    private Integer max = 10;
+    private Integer cunt = 10;
 
     /**
-     * 生产次数
+     * 消费次数
      */
     private AtomicInteger runCnt = new AtomicInteger(0);
 
-    public MyProducer(Long id, String name, Callable action) {
+
+    public MyConsumer(Long id, String name, Callable action) {
         this.id = id;
         this.name = name;
         this.action = action;
@@ -59,11 +60,11 @@ public class MyProducer implements Runnable {
                 runCnt.incrementAndGet();
                 Object call = action.call();
                 if (Objects.nonNull(call)) {
-                    PrintUtils.tcfo("第" + runCnt.get() + "轮生产", call);
+                    PrintUtils.oToStr("第" + runCnt.get() + "轮消费", JSONObject.toJSON(call));
                 }
-                SleepUtils.sleep(PRODUCE_GEP);
+                SleepUtils.sleep(CONSUMER_GEP);
             } catch (Exception e) {
-                PrintUtils.oToStr("MyProducer", e);
+                PrintUtils.oToStr("MyConsumer", e);
             }
         }
     }

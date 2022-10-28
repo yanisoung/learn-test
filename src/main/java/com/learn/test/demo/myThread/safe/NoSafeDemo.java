@@ -1,4 +1,4 @@
-package com.learn.test.demo.myThread.safe.nosafe;
+package com.learn.test.demo.myThread.safe;
 
 import com.learn.test.demo.myThread.executors.ThreadExecutors;
 import com.learn.test.demo.myThread.model.Goods;
