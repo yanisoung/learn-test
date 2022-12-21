@@ -4,6 +4,7 @@ import com.learn.test.demo.myThread.executors.ThreadExecutors;
 import com.learn.test.demo.myThread.model.Goods;
 import com.learn.test.thead.SleepUtils;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -15,6 +16,7 @@ import java.util.concurrent.ExecutorService;
 public class SafeDemo {
 
     public static void main(String[] args) {
+        Objects.equals(1,1);
         ExecutorService fixedThreadPool = ThreadExecutors.getFixedThreadPool(20);
         SafeDataBuffer<Goods> notSafeDataBuffer = new SafeDataBuffer<>();
 
