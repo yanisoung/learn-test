@@ -43,7 +43,7 @@ public class PrintUtils {
         });
     }
 
-    public static void tcfo(String msg, Object s) {
+    public static void tco(String msg, Object s) {
         String cft = "[" + Thread.currentThread().getName() + "]" + "：" + msg + JSONObject.toJSONString(s);
         //提交线程池进行异步输出，使得输出过程不影响当前线程的执行
         // 异步输出的好处：不会造成输出乱序，也不会造成当前线程阻塞
@@ -66,6 +66,10 @@ public class PrintUtils {
 
     public static void printClassLayout(Object o) {
         System.out.println(ClassLayout.parseInstance(o).toPrintable());
+        System.out.println("---------------------");
+    }
+
+    public static void printSplitLine() {
         System.out.println("---------------------");
     }
 }

@@ -1,8 +1,9 @@
-package com.learn.test.demo.myThread.myUnSafe;
+package com.learn.test.demo.myjuc.myUnSafe;
 
 import com.learn.test.PrintUtils;
+import com.learn.test.demo.myThread.myUnSafe.UnsafeConfig;
 import com.learn.test.thead.ThreadPoolExecutorUtil;
-import sun.misc.Unsafe;
+//import sun.misc.Unsafe;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -20,7 +21,7 @@ public class UnSafeDemo {
         private volatile int value;//值
 
         //不安全类
-        private static final Unsafe unsafe = UnsafeConfig.getUnsafeV2();
+//        private static final Unsafe unsafe = UnsafeConfig.getUnsafeV2();
 
         //value 的内存偏移（相对于对象头部的偏移，不是绝对偏移）
         private static final long valueOffset;
@@ -31,9 +32,10 @@ public class UnSafeDemo {
         static {
             try {
                 //取得value属性的内存偏移
-                valueOffset = unsafe.objectFieldOffset(OptimisticLockingPlus.class.getDeclaredField("value"));
+                valueOffset =0;
+//                valueOffset = unsafe.objectFieldOffset(OptimisticLockingPlus.class.getDeclaredField("value"));
 
-                PrintUtils.tco("valueOffset:=" + valueOffset);
+//                PrintUtils.tco("valueOffset:=" + valueOffset);
             } catch (Exception ex) {
                 throw new Error(ex);
             }
@@ -42,7 +44,8 @@ public class UnSafeDemo {
         //通过CAS原子操作，进行“比较并交换”
         public final boolean unSafeCompareAndSet(int oldValue, int newValue) {
             //原子操作：使用unsafe的“比较并交换”方法进行value属性的交换
-            return unsafe.compareAndSwapInt(this, valueOffset, oldValue, newValue);
+//            return unsafe.compareAndSwapInt(this, valueOffset, oldValue, newValue);
+            return false;
         }
 
         //使用无锁编程实现安全的自增方法

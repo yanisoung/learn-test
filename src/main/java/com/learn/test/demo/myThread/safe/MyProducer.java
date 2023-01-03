@@ -59,7 +59,7 @@ public class MyProducer implements Runnable {
                 runCnt.incrementAndGet();
                 Object call = action.call();
                 if (Objects.nonNull(call)) {
-                    PrintUtils.tcfo("第" + runCnt.get() + "轮生产", call);
+                    PrintUtils.tco("第" + runCnt.get() + "轮生产", call);
                 }
                 SleepUtils.sleep(PRODUCE_GEP);
             } catch (Exception e) {

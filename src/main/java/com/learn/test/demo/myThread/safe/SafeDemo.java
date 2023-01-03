@@ -1,7 +1,7 @@
 package com.learn.test.demo.myThread.safe;
 
 import com.learn.test.demo.myThread.executors.ThreadExecutors;
-import com.learn.test.demo.myThread.model.Goods;
+import com.learn.test.demo.model.Goods;
 import com.learn.test.thead.SleepUtils;
 
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.learn.test.demo.myThread.model;
+package com.learn.test.demo.model;
 
 import lombok.Data;
 

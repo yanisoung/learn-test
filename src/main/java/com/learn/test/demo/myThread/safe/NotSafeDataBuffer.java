@@ -2,7 +2,7 @@ package com.learn.test.demo.myThread.safe;
 
 import com.learn.test.PrintUtils;
 import com.learn.test.demo.myThread.executors.ThreadExecutors;
-import com.learn.test.demo.myThread.model.Goods;
+import com.learn.test.demo.model.Goods;
 import com.learn.test.thead.SleepUtils;
 
 import java.util.LinkedList;
@@ -31,7 +31,7 @@ public class NotSafeDataBuffer<T> {
      */
     public T add(T element) throws Exception {
         if (runCnt.get() >= MAX_RUN_COUNT) {
-            PrintUtils.tcfo("缓存区已经满了");
+            PrintUtils.tco("缓存区已经满了");
             return null;
         }
         dataList.add(element);
@@ -51,7 +51,7 @@ public class NotSafeDataBuffer<T> {
      */
     public T fetch() throws Exception {
         if (runCnt.get() <= 0) {
-            PrintUtils.tcfo("缓存区已经无数据了");
+            PrintUtils.tco("缓存区已经无数据了");
             return null;
         }
         T element = dataList.remove(0);
