@@ -6,7 +6,7 @@ import com.learn.test.demo.list.MyArrayList;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
 /**
- * 带修改标识操作符的原子类
+ * 带修改标识操作符的原子类：不关心更新次数，只关心是否更新过
  */
 public class AtomicMarkableReferenceDemo {
 

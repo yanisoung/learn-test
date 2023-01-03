@@ -1,12 +1,14 @@
 package com.learn.test.demo.myjuc.atomic;
 
 import com.learn.test.PrintUtils;
-import com.learn.test.demo.model.People;
+import lombok.Data;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
  * 属性更新原子类：长整型
+ * 1.字段必须是public volatile修饰
+ * 2.字段需要是基本数据类型，不能使用包装类型
  */
 public class AtomicIntegerFieldUpdaterDemo {
 
@@ -30,4 +32,10 @@ public class AtomicIntegerFieldUpdaterDemo {
         PrintUtils.printSplitLine();
 
     }
+}
+
+@Data
+class People {
+    private String name;
+    public volatile int age;
 }
