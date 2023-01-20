@@ -35,7 +35,7 @@ public class WaitNotifyDemo {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                PrintUtils.toStr("开始唤醒了");
+                PrintUtils.toStr("唤醒结束了");
 
             }
         }
