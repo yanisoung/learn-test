@@ -1,6 +1,5 @@
 package com.learn.test.demo.myThread.safe;
 
-import com.alibaba.fastjson.JSONObject;
 import com.learn.test.PrintUtils;
 import com.learn.test.thead.SleepUtils;
 import lombok.Data;
