@@ -1,6 +1,7 @@
 package com.learn.test.demo.myThread.safe;
 
 import com.learn.test.PrintUtils;
+import com.learn.test.demo.model.Goods;
 import com.learn.test.thead.SleepUtils;
 import lombok.Data;
 
@@ -57,9 +58,10 @@ public class MyProducer implements Runnable {
             try {
                 runCnt.incrementAndGet();
                 Object call = action.call();
-                if (Objects.nonNull(call)) {
-                    PrintUtils.tco("第" + runCnt.get() + "轮生产", call);
-                }
+                Goods goods = (Goods) call;
+                goods.setId(id + "");
+                goods.setName(name);
+                PrintUtils.tco("第" + runCnt.get() + "轮生产", goods);
                 SleepUtils.sleep(PRODUCE_GEP);
             } catch (Exception e) {
                 PrintUtils.oToStr("MyProducer", e);
